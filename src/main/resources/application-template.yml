@@ -1,0 +1,52 @@
+spring:
+  profiles:
+    active: dev  # 개발 시: dev, 배포 시: prod (서버 환경변수로 재설정 가능)
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://<DB_HOST>:3306/<DB_NAME>
+    username: <DB_USERNAME>
+    password: <DB_PASSWORD>
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # 또는 none, validate, create 등
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    com.example: DEBUG  # ← 자신의 패키지명으로 변경
+
+jwt:
+  secret: <JWT_SECRET_KEY>
+  expirationMs: 3600000  # 1시간
+
+file:
+  upload-dir: /path/to/uploads  # 파일 업로드 경로 (운영 서버에서는 절대경로 사용 권장)
+
+---
+
+# 💡 사용 방법:
+# 이 파일을 복사하여 `application.yml`, `application-dev.yml`, `application-prod.yml` 등으로 이름 변경 후
+# 실제 값 입력해 사용하세요.
+#
+# 이 템플릿은 Git에 포함시키고, 실제 설정 파일은 `.gitignore`에 추가하여 보안을 유지하세요.
