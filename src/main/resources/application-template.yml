@@ -1,24 +1,27 @@
 spring:
   profiles:
-    active: dev  # 개발 시: dev, 배포 시: prod (서버 환경변수로 재설정 가능)
-
+    active: dev
+# 개발 시: dev, 배포 시: prod (서버 환경변수로 재설정 가능)
+#본인 resources파일안에 기본적으로 application.properties가 아닌 .yml로 바꾸고 복붙
+# application-template.yml은 깃으로 공유하기 위함 .yml은 민감한 정보를 담고있음
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://<DB_HOST>:3306/<DB_NAME>
-    username: <DB_USERNAME>
-    password: <DB_PASSWORD>
+    url: jdbc:mysql://localhost:3306/fork_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: <DB_USERNAME> #본인 DB이름
+    password: <DB_PASSWORD> #본인 MYSQL 패스워드
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
 
   jpa:
     hibernate:
-      ddl-auto: update  # 또는 none, validate, create 등
+      ddl-auto: update  # 개발용은 update, 운영용은 validate 또는 none 권장
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
 
   servlet:
     multipart:
@@ -34,7 +37,7 @@ logging:
   level:
     root: INFO
     org.springframework.web: DEBUG
-    com.example: DEBUG  # ← 자신의 패키지명으로 변경
+    com.fork.app: DEBUG  # ← 자신의 패키지명으로 변경
 
 jwt:
   secret: <JWT_SECRET_KEY>
@@ -46,7 +49,4 @@ file:
 ---
 
 # 💡 사용 방법:
-# 이 파일을 복사하여 `application.yml`, `application-dev.yml`, `application-prod.yml` 등으로 이름 변경 후
-# 실제 값 입력해 사용하세요.
-#
 # 이 템플릿은 Git에 포함시키고, 실제 설정 파일은 `.gitignore`에 추가하여 보안을 유지하세요.
