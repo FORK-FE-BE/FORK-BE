@@ -1,7 +1,7 @@
 package com.fork.app.service;
 
-import com.fork.app.domain.dto.MenuDto;
-import com.fork.app.domain.dto.RestaurantDto;
+import com.fork.app.domain.dto.MenuResponseDto;
+import com.fork.app.domain.dto.RestaurantResponseDto;
 import com.fork.app.domain.entity.Menu;
 import com.fork.app.domain.entity.Restaurant;
 import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;
@@ -24,15 +24,15 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     // 카테고리로 식당 리스트 반환
-    public List<RestaurantDto> getRestaurantsByCategory(String categoryname) {
+    public List<RestaurantResponseDto> getRestaurantsByCategory(String categoryname) {
         log.info("서비스 getRestaurantsByCategory메서드 시작");
         List<Restaurant> restaurants = restaurantRepository.findRestaurantsByCategory(RestaurantCategoryEnum.valueOf(categoryname));
 
         return restaurants.stream()
                 .map(restaurant -> {
                     restaurant.getStorePictureUrl().size();
-                    List<MenuDto> menuDtos = restaurant.getMenus().stream()
-                            .map(menu -> MenuDto.builder()
+                    List<MenuResponseDto> menuResponseDtos = restaurant.getMenus().stream()
+                            .map(menu -> MenuResponseDto.builder()
                                     .menuId(menu.getMenuId())
                                     .name(menu.getName())
                                     .price(menu.getPrice())
@@ -40,12 +40,12 @@ public class RestaurantService {
                                     .build()
                             ).collect(Collectors.toList());
 
-                    return RestaurantDto.builder()
+                    return RestaurantResponseDto.builder()
                             .restaurantId(restaurant.getRestaurantId())
                             .name(restaurant.getName())
                             .restaurantCategoryEnum(restaurant.getRestaurantCategoryEnum())
                             .address(restaurant.getAddress())
-                            .menus(menuDtos)  // 메뉴 리스트 포함
+                            .menus(menuResponseDtos)  // 메뉴 리스트 포함
                             .storePictureUrl(restaurant.getStorePictureUrl())
                             .phone(restaurant.getPhone())
                             .rating(restaurant.getRating())
@@ -58,10 +58,10 @@ public class RestaurantService {
 
 
     //식당의 메뉴들 반환
-    public Map<MenuCategoryEnum, List<MenuDto>> getMenusOfRestaurant(Long restaurantId) {
+    public Map<MenuCategoryEnum, List<MenuResponseDto>> getMenusOfRestaurant(Long restaurantId) {
         List<Menu> menus = restaurantRepository.findMenusByRestaurantId(restaurantId);
-        List<MenuDto> menuDtos = menus.stream()
-                .map(menu -> MenuDto.builder()
+        List<MenuResponseDto> menuResponseDtos = menus.stream()
+                .map(menu -> MenuResponseDto.builder()
                         .menuId(menu.getMenuId())
                         .name(menu.getName())
                         .price(menu.getPrice())
@@ -71,17 +71,17 @@ public class RestaurantService {
                 .collect(Collectors.toList());
 
         // 카테고리별로 그룹핑
-        return menuDtos.stream()
-                .collect(Collectors.groupingBy(MenuDto::getCategory));
+        return menuResponseDtos.stream()
+                .collect(Collectors.groupingBy(MenuResponseDto::getCategory));
     }
 
     //메뉴 상세 반환
-    public MenuDto getMenuByRestaurantAndMenuId(Long restaurantId, Long menuId){
+    public MenuResponseDto getMenuByRestaurantAndMenuId(Long restaurantId, Long menuId){
         List<Menu> menus = restaurantRepository.findMenusByRestaurantId(restaurantId);
-        MenuDto menuDto = menus.stream()
+        MenuResponseDto menuResponseDto = menus.stream()
                 .filter(menu -> menu.getMenuId().equals(menuId))
                 .findFirst()
-                .map(menu -> MenuDto.builder()
+                .map(menu -> MenuResponseDto.builder()
                         .menuId(menu.getMenuId())
                         .name(menu.getName())
                         .price(menu.getPrice())
@@ -89,7 +89,7 @@ public class RestaurantService {
                         .imgUrl(menu.getImgUrl())
                         .build())
                 .orElseThrow(() -> new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다."));
-        return menuDto;
+        return menuResponseDto;
     }
 }
 

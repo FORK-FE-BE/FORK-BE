@@ -38,6 +38,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
 
+    public void changeNickname(String nickname){
+        this.name = nickname;
+    }
 //    @Column(nullable = false, length = 11)
 //    private String phone;
 

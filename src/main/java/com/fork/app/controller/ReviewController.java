@@ -13,13 +13,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    @GetMapping("/api/review")
-    public ResponseEntity<?> createReview(){
-        return ResponseEntity.ok(Map.of("result", "success"));
-    }
-
-    @GetMapping("/api/{userId}/reviews")
-    public ResponseEntity<?> getReviews(){
-        return ResponseEntity.ok(Map.of("result", "success"));
-    }
+//    @GetMapping("/api/review")
+//    public ResponseEntity<?> createReview(){
+//        return ResponseEntity.ok(Map.of("result", "success"));
+//    }
+//
+//    @GetMapping("/api/{userId}/reviews")
+//    public ResponseEntity<?> getReviews(){
+//        return ResponseEntity.ok(Map.of("result", "success"));
+//    }
 }
