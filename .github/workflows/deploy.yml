@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22  # ← 여기는 SSH 포트입니다. 8080 아님!
           script: |
-            cd ~/FORK-BE/app
+            cd ~/FORK-BE
             git pull origin main
             ./gradlew clean build -x test
             pkill -f 'java -jar' || true
