@@ -1,6 +1,7 @@
 package com.fork.app.controller;
 
 import com.fork.app.domain.dto.MenuResponseDto;
+import com.fork.app.domain.dto.RestaurantDetailResponseDto;
 import com.fork.app.domain.dto.RestaurantListResponseDto;
 import com.fork.app.domain.dto.RestaurantResponseDto;
 import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;
@@ -50,14 +51,14 @@ public class RestaurantController {
         return ResponseEntity.ok().body(restaurantsByCategory);
     }
 
-    @Operation(summary = "음식점 상세 및 메뉴 목록 조회", description = "해당 음식점의 메뉴들을 카테고리별로 조회합니다.")
+    @Operation(summary = "음식점 상세 및 메뉴 목록 조회", description = "해당 음식점과 메뉴들을 카테고리별로 조회합니다.")
     @GetMapping("/api/restaurants/{restaurantId}") //해당 음식점조회/메뉴리스트 조회
     public ResponseEntity<?> getMenuList(
             @Parameter(description = "음식점 ID", example = "1")
             @PathVariable Long restaurantId) {
-        Map<MenuCategoryEnum, List<MenuResponseDto>> menusOfRestaurant = restaurantService.getMenusOfRestaurant(restaurantId);
-        log.info("식당 조회 -> 식당메뉴들: {}", menusOfRestaurant);
-        return ResponseEntity.ok().body(menusOfRestaurant);
+
+        RestaurantDetailResponseDto restaurantDetail = restaurantService.getRestaurantDetail(restaurantId);
+        return ResponseEntity.ok().body(restaurantDetail);
     }
 
     @Operation(summary = "단일 메뉴 상세 조회", description = "음식점 ID와 메뉴 ID를 통해 특정 메뉴의 상세 정보를 조회합니다.")

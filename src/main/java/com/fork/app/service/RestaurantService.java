@@ -1,6 +1,7 @@
 package com.fork.app.service;
 
 import com.fork.app.domain.dto.MenuResponseDto;
+import com.fork.app.domain.dto.RestaurantDetailResponseDto;
 import com.fork.app.domain.dto.RestaurantListResponseDto;
 import com.fork.app.domain.dto.RestaurantResponseDto;
 import com.fork.app.domain.entity.Menu;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,9 +52,15 @@ public class RestaurantService {
     }
 
 
-    //식당의 메뉴들 반환
-    public Map<MenuCategoryEnum, List<MenuResponseDto>> getMenusOfRestaurant(Long restaurantId) {
+    public RestaurantDetailResponseDto getRestaurantDetail(Long restaurantId) {
+        // 1. 식당 정보 조회
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 식당입니다."));
+
+        // 2. 메뉴 리스트 조회
         List<Menu> menus = restaurantRepository.findMenusByRestaurantId(restaurantId);
+
+        // 3. DTO 변환
         List<MenuResponseDto> menuResponseDtos = menus.stream()
                 .map(menu -> MenuResponseDto.builder()
                         .menuId(menu.getMenuId())
@@ -63,9 +71,19 @@ public class RestaurantService {
                         .build())
                 .collect(Collectors.toList());
 
-        // 카테고리별로 그룹핑
-        return menuResponseDtos.stream()
-                .collect(Collectors.groupingBy(MenuResponseDto::getCategory));
+        // 4. 카테고리별 그룹핑
+        Map<String, List<MenuResponseDto>> categorizedMenus = menuResponseDtos.stream()
+                .collect(Collectors.groupingBy(dto -> dto.getCategory().getDisplayName()));
+        // 또는 .name()으로 원시 Enum 이름 사용
+
+        // 5. 최종 응답 DTO 생성
+        return RestaurantDetailResponseDto.builder()
+                .id(restaurant.getRestaurantId())
+                .name(restaurant.getName())
+                .rating(restaurant.getRating())
+                .reviewCount(restaurant.getReviewCount())
+                .menus(categorizedMenus)
+                .build();
     }
 
     //메뉴 상세 반환
