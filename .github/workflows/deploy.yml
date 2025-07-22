@@ -22,27 +22,19 @@ jobs:
           port: 22
           script: |
             cd ~/FORK-BE
-
-            echo "✅ Pulling latest code..."
             git pull origin main
-
-            echo "✅ Building project..."
             ./gradlew clean build -x test
-
-            echo "✅ Killing existing app..."
+          
+            echo "🛑 Stopping previous app..."
             pkill -f 'java -jar' || true
             sleep 3
-
-            echo "✅ Setting spring profile and permissions..."
+          
+            echo "🔐 Setting profile and log file..."
             export SPRING_PROFILES_ACTIVE=prod
-            JAR_NAME=$(ls build/libs/*.jar | head -n 1)
-
-            # 로그 파일 초기화 및 권한 설정
             rm -f app.log
             touch app.log
             chmod 666 app.log
-
-            echo "✅ Running application: $JAR_NAME"
+          
+            echo "🚀 Starting new app..."
+            JAR_NAME=$(ls build/libs/*.jar | head -n 1)
             nohup java -jar "$JAR_NAME" > app.log 2>&1 &
-
-            echo "🚀 Deployment completed."
