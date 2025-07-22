@@ -25,6 +25,18 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
 
+//    @Operation(summary = "카테고리별 음식점 조회", description = "카테고리를 통해 해당 음식점 리스트를 조회합니다.")
+//    @GetMapping("/api/{categoryname}/restaurants") //카테고리 클릭시 음식점 리스트 조회
+//    public ResponseEntity<?> getRestaurantsByCategory(
+//            @Parameter(description = "음식 카테고리 이름 (예: 중식, 디저트, 치킨)", example = "중식")
+//            @PathVariable String categoryname) {
+//        // categoryname 값 이용 가능
+//        log.info("controller 시작");
+//        List<RestaurantResponseDto> restaurantsByCategory = restaurantService.getRestaurantsByCategory(categoryname);
+//        log.info("카테고리 선택: {}", categoryname);
+//        return ResponseEntity.ok().body(restaurantsByCategory);
+//    }
+
     @Operation(summary = "카테고리별 음식점 조회", description = "카테고리를 통해 해당 음식점 리스트를 조회합니다.")
     @GetMapping("/api/{categoryname}/restaurants") //카테고리 클릭시 음식점 리스트 조회
     public ResponseEntity<?> getRestaurantsByCategory(
@@ -46,6 +58,7 @@ public class RestaurantController {
         log.info("식당 조회 -> 식당메뉴들: {}", menusOfRestaurant);
         return ResponseEntity.ok().body(menusOfRestaurant);
     }
+
     @Operation(summary = "단일 메뉴 상세 조회", description = "음식점 ID와 메뉴 ID를 통해 특정 메뉴의 상세 정보를 조회합니다.")
     @GetMapping("/api/restaurants/{restaurantId}/menus/{menuId}")
     public ResponseEntity<?> getMenu(
