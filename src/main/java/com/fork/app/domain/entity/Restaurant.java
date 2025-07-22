@@ -70,6 +70,8 @@ public class Restaurant {
 
     @Column(nullable = false)
     private LocalDateTime createdDate;
+    private boolean hasAR;
+    private boolean hasCoupon;
 
 //    @Column(nullable = false)
 //    private LocalDateTime modifiedDate;

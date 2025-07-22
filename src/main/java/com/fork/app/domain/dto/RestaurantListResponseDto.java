@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
@@ -21,7 +22,7 @@ public class RestaurantListResponseDto {
     private List<String> menus;
 
     @Schema(description = "식당 평점 (0.0 ~ 5.0)", example = "4.5")
-    private double rating;
+    private BigDecimal rating;
 
     @Schema(description = "리뷰 수", example = "123")
     private int reviewCount;
