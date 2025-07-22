@@ -18,5 +18,6 @@ public class RestaurantDetailResponseDto {
     private BigDecimal rating;
     private int reviewCount;
     private String deliveryInfo;
+    private List<String> storePictureUrl;
     private Map<String, List<MenuResponseDto>> menus;
 }
