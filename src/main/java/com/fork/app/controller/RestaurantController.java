@@ -1,6 +1,7 @@
 package com.fork.app.controller;
 
 import com.fork.app.domain.dto.MenuResponseDto;
+import com.fork.app.domain.dto.RestaurantListResponseDto;
 import com.fork.app.domain.dto.RestaurantResponseDto;
 import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;
 import com.fork.app.service.RestaurantService;
@@ -43,8 +44,7 @@ public class RestaurantController {
             @Parameter(description = "음식 카테고리 이름 (예: 중식, 디저트, 치킨)", example = "중식")
             @PathVariable String categoryname) {
         // categoryname 값 이용 가능
-        log.info("controller 시작");
-        List<RestaurantResponseDto> restaurantsByCategory = restaurantService.getRestaurantsByCategory(categoryname);
+        List<RestaurantListResponseDto> restaurantsByCategory = restaurantService.getRestaurantsByCategory(categoryname);
         log.info("카테고리 선택: {}", categoryname);
         return ResponseEntity.ok().body(restaurantsByCategory);
     }
