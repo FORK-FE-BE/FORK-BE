@@ -9,5 +9,6 @@ public enum RestaurantCategoryEnum {
     피자,
     양식,
     일식,
-    패스트푸드,
+    찌개,
+    분식,
 }
