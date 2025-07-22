@@ -33,6 +33,7 @@ public class Restaurant {
 
     // 이 식당이 가진 메뉴들
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Menu> menus = new ArrayList<>();
 
     //식당 대표 이미지 URL리스트를 서브 테이블로 저장(새로운 테이블 생성)
@@ -42,6 +43,7 @@ public class Restaurant {
             joinColumns = @JoinColumn(name = "restaurant_id") //외래키 이름
     )
     @Column(name = "image_url")
+    @Builder.Default
     private List<String> storePictureUrl = new ArrayList<>();
 
     @Column(nullable = false, length = 20)
