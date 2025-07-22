@@ -1,6 +1,7 @@
 package com.fork.app.service;
 
 import com.fork.app.domain.dto.MenuResponseDto;
+import com.fork.app.domain.dto.RestaurantListResponseDto;
 import com.fork.app.domain.dto.RestaurantResponseDto;
 import com.fork.app.domain.entity.Menu;
 import com.fork.app.domain.entity.Restaurant;
@@ -23,34 +24,26 @@ import java.util.stream.Collectors;
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
-    // 카테고리로 식당 리스트 반환
-    public List<RestaurantResponseDto> getRestaurantsByCategory(String categoryname) {
-        log.info("서비스 getRestaurantsByCategory메서드 시작");
-        List<Restaurant> restaurants = restaurantRepository.findRestaurantsByCategory(RestaurantCategoryEnum.valueOf(categoryname));
+    // 카테고리로 식당 리스트 반환 (DTO에 맞게)
+    public List<RestaurantListResponseDto> getRestaurantsByCategory(String categoryName) {
+        RestaurantCategoryEnum categoryEnum = RestaurantCategoryEnum.valueOf(categoryName);
+        List<Restaurant> restaurants = restaurantRepository.findRestaurantsByCategory(categoryEnum);
 
         return restaurants.stream()
                 .map(restaurant -> {
-                    restaurant.getStorePictureUrl().size();
-                    List<MenuResponseDto> menuResponseDtos = restaurant.getMenus().stream()
-                            .map(menu -> MenuResponseDto.builder()
-                                    .menuId(menu.getMenuId())
-                                    .name(menu.getName())
-                                    .price(menu.getPrice())
-                                    .imgUrl(menu.getImgUrl())
-                                    .build()
-                            ).collect(Collectors.toList());
+                    // 메뉴에서 이미지 URL만 추출
+                    List<String> menuImageUrls = restaurant.getMenus().stream()
+                            .map(Menu::getImgUrl)
+                            .collect(Collectors.toList());
 
-                    return RestaurantResponseDto.builder()
-                            .restaurantId(restaurant.getRestaurantId())
+                    return RestaurantListResponseDto.builder()
+                            .id(restaurant.getRestaurantId())
                             .name(restaurant.getName())
-                            .restaurantCategoryEnum(restaurant.getRestaurantCategoryEnum())
-                            .address(restaurant.getAddress())
-                            .menus(menuResponseDtos)  // 메뉴 리스트 포함
-                            .storePictureUrl(restaurant.getStorePictureUrl())
-                            .phone(restaurant.getPhone())
+                            .menus(menuImageUrls) // 이미지 URL 리스트
                             .rating(restaurant.getRating())
                             .reviewCount(restaurant.getReviewCount())
-                            .createdDate(restaurant.getCreatedDate())
+                            .hasAR(restaurant.isHasAR())       // Restaurant 엔티티에 boolean 필드라고 가정
+                            .hasCoupon(restaurant.isHasCoupon()) // 마찬가지로 boolean 필드
                             .build();
                 })
                 .collect(Collectors.toList());
