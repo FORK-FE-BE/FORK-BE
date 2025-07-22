@@ -83,6 +83,7 @@ public class RestaurantService {
                 .rating(restaurant.getRating())
                 .reviewCount(restaurant.getReviewCount())
                 .menus(categorizedMenus)
+                .storePictureUrl(restaurant.getStorePictureUrl())
                 .build();
     }
 
