@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,6 +57,8 @@ public class RestaurantService {
         // 1. 식당 정보 조회
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 식당입니다."));
+        // 🔸 Lazy 로딩된 storePictureUrl 강제 초기화
+        List<String> storePictureUrl = new ArrayList<>(restaurant.getStorePictureUrl());
 
         // 2. 메뉴 리스트 조회
         List<Menu> menus = restaurantRepository.findMenusByRestaurantId(restaurantId);
@@ -83,7 +86,7 @@ public class RestaurantService {
                 .rating(restaurant.getRating())
                 .reviewCount(restaurant.getReviewCount())
                 .menus(categorizedMenus)
-                .storePictureUrl(restaurant.getStorePictureUrl())
+                .storePictureUrl(storePictureUrl)
                 .build();
     }
 
