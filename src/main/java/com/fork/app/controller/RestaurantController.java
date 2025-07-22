@@ -45,6 +45,7 @@ public class RestaurantController {
             @PathVariable String categoryname) {
         // categoryname 값 이용 가능
         List<RestaurantListResponseDto> restaurantsByCategory = restaurantService.getRestaurantsByCategory(categoryname);
+
         log.info("카테고리 선택: {}", categoryname);
         return ResponseEntity.ok().body(restaurantsByCategory);
     }
