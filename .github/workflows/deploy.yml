@@ -19,10 +19,30 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22  # ← 여기는 SSH 포트입니다. 8080 아님!
+          port: 22
           script: |
             cd ~/FORK-BE
+
+            echo "✅ Pulling latest code..."
             git pull origin main
+
+            echo "✅ Building project..."
             ./gradlew clean build -x test
+
+            echo "✅ Killing existing app..."
             pkill -f 'java -jar' || true
-            nohup java -jar build/libs/*.jar > app.log 2>&1 &
+            sleep 3
+
+            echo "✅ Setting spring profile and permissions..."
+            export SPRING_PROFILES_ACTIVE=prod
+            JAR_NAME=$(ls build/libs/*.jar | head -n 1)
+
+            # 로그 파일 초기화 및 권한 설정
+            rm -f app.log
+            touch app.log
+            chmod 666 app.log
+
+            echo "✅ Running application: $JAR_NAME"
+            nohup java -jar "$JAR_NAME" > app.log 2>&1 &
+
+            echo "🚀 Deployment completed."
