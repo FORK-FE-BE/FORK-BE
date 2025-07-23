@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,13 +76,25 @@ public class RestaurantService {
                 .collect(Collectors.groupingBy(dto -> dto.getCategory().getDisplayName()));
         // 또는 .name()으로 원시 Enum 이름 사용
 
+        // 카테고리별 그룹핑 후, Enum 순서대로 LinkedHashMap에 담기
+        Map<String, List<MenuResponseDto>> sortedCategorizedMenus = new LinkedHashMap<>();
+
+        Arrays.stream(MenuCategoryEnum.values())
+                .sorted(Comparator.comparingInt(MenuCategoryEnum::getOrder))
+                .forEach(enumValue -> {
+                    String displayName = enumValue.getDisplayName();
+                    if (categorizedMenus.containsKey(displayName)) {
+                        sortedCategorizedMenus.put(displayName, categorizedMenus.get(displayName));
+                    }
+                });
+
         // 5. 최종 응답 DTO 생성
         return RestaurantDetailResponseDto.builder()
                 .id(restaurant.getRestaurantId())
                 .name(restaurant.getName())
                 .rating(restaurant.getRating())
                 .reviewCount(restaurant.getReviewCount())
-                .menus(categorizedMenus)
+                .menus(sortedCategorizedMenus)
                 .storePictureUrl(storePictureUrl)
                 .build();
     }
