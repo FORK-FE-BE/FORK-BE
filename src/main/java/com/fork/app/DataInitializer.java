@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Component // 스프링 컨테이너가 DataInitializer를 빈으로 생성
+//@Component // 스프링 컨테이너가 DataInitializer를 빈으로 생성
 @RequiredArgsConstructor // final 필드를 자동 생성자 주입
 public class DataInitializer {
 
@@ -30,7 +30,7 @@ public class DataInitializer {
     private final MenuRepository menuRepository; // Menu 엔티티 DB 작업용 레포지토리
     private final ObjectMapper objectMapper; // JSON 파싱을 위한 Jackson ObjectMapper
 
-    @PostConstruct // 빈 초기화 후 자동으로 실행되는 메서드 지정
+//    @PostConstruct // 빈 초기화 후 자동으로 실행되는 메서드 지정
     @Transactional // 메서드 내 DB 작업을 트랜잭션 범위로 감싸줌 (원자성 보장)
     public void init() throws IOException {
         // resources 폴더 내 data/restaurantsByCategory.json 파일을 읽기 위한 리소스 객체 생성
