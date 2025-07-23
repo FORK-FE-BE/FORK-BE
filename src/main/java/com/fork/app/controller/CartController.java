@@ -54,9 +54,8 @@ public class CartController {
 
     // [4] 장바구니 수량 변경
     @Operation(summary = "장바구니 수량 변경", description = "장바구니 내 특정 항목의 수량을 수정합니다.")
-    @PutMapping("/api/cart/{userId}/items/{cartItemId}")
+    @PutMapping("/api/cart/{cartItemId}")
     public ResponseEntity<?> updateCartItem(
-            @Parameter(description = "사용자 ID", example = "1")@PathVariable Long userId,
             @Parameter(description = "장바구니 항목 ID", example = "2")@PathVariable Long cartItemId,
             @RequestBody UpdateQuantityRequest updateQuantityRequest
     ) {
