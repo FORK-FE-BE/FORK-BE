@@ -1,7 +1,10 @@
 package com.fork.app.domain.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Schema(description = "장바구니 요청 DTO")
@@ -12,6 +15,6 @@ public class CartRequestDto {
     @Schema(description = "수량", example = "2")
     private int quantity;
 
-    @Schema(description = "선택 옵션")
-    private String selectedOptions; // 예: 토핑/사이즈 등
+//    @Schema(description = "선택 옵션")
+//    private List<CartOptionDto> selectedOptions;
 }

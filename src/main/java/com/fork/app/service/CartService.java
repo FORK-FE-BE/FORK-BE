@@ -45,16 +45,14 @@ public class CartService {
                 cartRepository.delete(cart);
                 cart = null;
             }
-
         }
         // 장바구니가 없으면 새로 생성
         if (cart == null) {
             cart = Cart.builder().user(user).restaurant(restaurant).build();
             cartRepository.save(cart);
         }
-
-        // 장바구니에 동일한 메뉴가 이미 있는지 검사                                                                            && item.getSelectedOptions().equals(cartRequestDto.getSelectedOptions()
-        CartItem existingItem = cart.getCartItems().stream().filter(item -> item.getMenu().getMenuId().equals(menuId)) // 옵션이 같아야 같은 제품
+        CartItem existingItem = cart
+                .getCartItems().stream().filter(item -> item.getMenu().getMenuId().equals(menuId))
                 .findFirst().orElse(null);
 
         if (existingItem != null) {
@@ -62,7 +60,11 @@ public class CartService {
             existingItem.setQuantity(existingItem.getQuantity() + cartRequestDto.getQuantity());
         } else {
             // 새롭게 추가
-            CartItem cartItem = CartItem.builder().cart(cart).menu(menu).quantity(cartRequestDto.getQuantity()).selectedOptions(cartRequestDto.getSelectedOptions()).build();
+            CartItem cartItem = CartItem.builder()
+                    .cart(cart)
+                    .menu(menu)
+                    .quantity(cartRequestDto.getQuantity())
+                    .build();
             cartItemRepository.save(cartItem);
         }
     }
