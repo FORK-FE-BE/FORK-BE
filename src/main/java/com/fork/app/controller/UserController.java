@@ -26,17 +26,15 @@ public class UserController {
     public ResponseEntity<?> kakaoLoginController(@RequestBody KakaoLoginDto kakaoLoginDTO){
         log.info("카카오 로그인 요청: {}", kakaoLoginDTO.toString());
         boolean isExist = userService.isExistMember(kakaoLoginDTO.getEmail());
-
+        UserInfoResponseDto responseDto = null;
         // ✅ 존재하지 않으면 회원가입 후 로그인 처리
         if(!isExist){
-            userService.registerMember(kakaoLoginDTO);
+            responseDto = userService.registerMember(kakaoLoginDTO);
+        }else{
+            responseDto = userService.findByEmail(kakaoLoginDTO.getEmail());// 기존 유저 정보 가져오기
         }
-        Map<String, String> token = userService.generateToken(kakaoLoginDTO.getEmail());
-        return ResponseEntity.ok(Map.of(
-                "result", "success"
-//                "accessToken", token.get("accessToken"),
-//                "refreshToken", token.get("refreshToken")
-        ));
+//        Map<String, String> token = userService.generateToken(kakaoLoginDTO.getEmail());
+        return ResponseEntity.ok().body(responseDto);
     }
 
 
