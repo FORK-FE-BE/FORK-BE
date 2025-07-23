@@ -69,19 +69,19 @@ public class CartService {
         }
     }
 
-    public ResponseEntity<?> getCart(Long userId) {
+    public List<CartResponseDto> getCart(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자없음"));
 
         Cart cart = cartRepository.findByUser(user).orElse(null);
         if (cart == null || cart.getCartItems() == null || cart.getCartItems().isEmpty()) {
-            return ResponseEntity.ok(List.of()); // 빈 리스트 반환
+            return List.of(); // 빈 리스트 반환
         }
         List<CartResponseDto> responseList = new ArrayList<>();
         for (CartItem cartItem : cart.getCartItems()) {
             CartResponseDto cartResponseDto = CartResponseDto.builder().userId(user.getUserId()).cartItemId(cartItem.getId()).menuId(cartItem.getMenu().getMenuId()).menuName(cartItem.getMenu().getName()).quantity(cartItem.getQuantity()).price(cartItem.getMenu().getPrice()).restaurantId(cart.getRestaurant().getRestaurantId()).selectedOptions(cartItem.getSelectedOptions()).totalPrice(cartItem.getMenu().getPrice() * cartItem.getQuantity()).build();
             responseList.add(cartResponseDto);
         }
-        return ResponseEntity.ok(responseList);
+        return responseList;
     }
 
     public void updateCartItem(Long cartItemId, Integer quantity) {
