@@ -88,7 +88,7 @@ public class CartService {
                         .menuId(cartItem.getMenu().getMenuId())
                         .menuName(cartItem.getMenu().getName())
                         .quantity(cartItem.getQuantity())
-                        .price(cartItem.getMenu().getPrice())
+                        .price(cartItem.getMenu().getPrice()*cartItem.getQuantity())
                         .build()
                 )
                 .collect(Collectors.toList());
