@@ -20,6 +20,9 @@ public class CartResponseDto {
 
     @Schema(description = "식당 ID", example = "20")
     private Long restaurantId;
+    
+    @Schema(description = "식당 이름", example = "마라탕후루본점")
+    private String restaurantName;
 
     @Schema(description = "장바구니 리스트")
     private List<CartItemResponseDto> cartItemList;

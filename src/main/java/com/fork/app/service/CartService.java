@@ -76,41 +76,46 @@ public class CartService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
         Cart cart = cartRepository.findByUser(user).orElse(null);
-
         if (cart == null || cart.getCartItems() == null || cart.getCartItems().isEmpty()) {
-            return null; // 또는 빈 CartResponseDto 반환 선택 가능
+            return null; // 또는 빈 DTO 반환
         }
+
+        String restaurantName = cart.getRestaurant().getName(); // null 체크 뒤에 가져오기 권장
 
         // CartItemResponseDto 리스트 생성
         List<CartItemResponseDto> cartItemResponseList = cart.getCartItems().stream()
-                .map(cartItem -> CartItemResponseDto.builder()
-                        .cartItemId(cartItem.getId())
-                        .menuId(cartItem.getMenu().getMenuId())
-                        .menuName(cartItem.getMenu().getName())
-                        .quantity(cartItem.getQuantity())
-                        .price(cartItem.getMenu().getPrice())
-                        .totalPrice(cartItem.getMenu().getPrice()*cartItem.getQuantity())
-                        .build()
-                )
+                .map(cartItem -> {
+                    // 옵션 추가 금액 계산 예시 (있으면 실제 구현 필요)
+                    int optionExtraPrice = 0;
+                    // ex) cartItem.getSelectedOptions()를 파싱해 optionExtraPrice 계산
+
+                    int itemTotalPrice = (cartItem.getMenu().getPrice() + optionExtraPrice) * cartItem.getQuantity();
+
+                    return CartItemResponseDto.builder()
+                            .cartItemId(cartItem.getId())   // ID 필드명 확인
+                            .menuId(cartItem.getMenu().getMenuId())
+                            .menuName(cartItem.getMenu().getName())
+                            .quantity(cartItem.getQuantity())
+                            .price(cartItem.getMenu().getPrice())
+                            .totalPrice(itemTotalPrice)
+                            .build();
+                })
                 .collect(Collectors.toList());
 
-        // 총 가격 계산 (메뉴 가격 * 수량 + 옵션 가격 포함, 옵션가격 있다면 추가해 주세요)
-        int totalPrice = cart.getCartItems().stream()
-                .mapToInt(item -> {
-                    int optionExtraPrice = 0;
-                    // 만약 옵션 가격 데이터가 CartItem에 있다면 추가해주세요
-                    // 예: item.getSelectedOptions() -> 옵션 총 추가금 계산 코드 삽입 필요
-                    return (item.getMenu().getPrice() + optionExtraPrice) * item.getQuantity();
-                })
+        // 총 가격 계산 (전체 아이템 합산)
+        int totalPrice = cartItemResponseList.stream()
+                .mapToInt(CartItemResponseDto::getTotalPrice)
                 .sum();
 
         return CartResponseDto.builder()
                 .userId(user.getUserId())
                 .restaurantId(cart.getRestaurant().getRestaurantId())
+                .restaurantName(restaurantName)       // 추가: 식당 이름 포함
                 .cartItemList(cartItemResponseList)
                 .totalPrice(totalPrice)
                 .build();
     }
+
 
     public void updateCartItem(Long cartItemId, Integer quantity) {
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() -> new RuntimeException("해당 장바구니 항목을 찾을 수 없습니다."));
