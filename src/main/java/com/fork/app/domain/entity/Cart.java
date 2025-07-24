@@ -24,13 +24,6 @@ public class Cart {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    //    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "menuId", nullable = false)
-//    private Menu menu;
-
-//    @Column(nullable = false)
-//    private Integer quantity;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurantId", nullable = false)
     private Restaurant restaurant;
