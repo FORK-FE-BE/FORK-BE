@@ -1,5 +1,6 @@
 package com.fork.app.service;
 
+import com.fork.app.domain.dto.CartItemResponseDto;
 import com.fork.app.domain.dto.CartRequestDto;
 import com.fork.app.domain.dto.CartResponseDto;
 import com.fork.app.domain.entity.*;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -69,19 +71,44 @@ public class CartService {
         }
     }
 
-    public List<CartResponseDto> getCart(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자없음"));
+    public CartResponseDto getCart(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
 
         Cart cart = cartRepository.findByUser(user).orElse(null);
+
         if (cart == null || cart.getCartItems() == null || cart.getCartItems().isEmpty()) {
-            return List.of(); // 빈 리스트 반환
+            return null; // 또는 빈 CartResponseDto 반환 선택 가능
         }
-        List<CartResponseDto> responseList = new ArrayList<>();
-        for (CartItem cartItem : cart.getCartItems()) {
-            CartResponseDto cartResponseDto = CartResponseDto.builder().userId(user.getUserId()).cartItemId(cartItem.getId()).menuId(cartItem.getMenu().getMenuId()).menuName(cartItem.getMenu().getName()).quantity(cartItem.getQuantity()).price(cartItem.getMenu().getPrice()).restaurantId(cart.getRestaurant().getRestaurantId()).selectedOptions(cartItem.getSelectedOptions()).totalPrice(cartItem.getMenu().getPrice() * cartItem.getQuantity()).build();
-            responseList.add(cartResponseDto);
-        }
-        return responseList;
+
+        // CartItemResponseDto 리스트 생성
+        List<CartItemResponseDto> cartItemResponseList = cart.getCartItems().stream()
+                .map(cartItem -> CartItemResponseDto.builder()
+                        .cartItemId(cartItem.getId())
+                        .menuId(cartItem.getMenu().getMenuId())
+                        .menuName(cartItem.getMenu().getName())
+                        .quantity(cartItem.getQuantity())
+                        .price(cartItem.getMenu().getPrice())
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+        // 총 가격 계산 (메뉴 가격 * 수량 + 옵션 가격 포함, 옵션가격 있다면 추가해 주세요)
+        int totalPrice = cart.getCartItems().stream()
+                .mapToInt(item -> {
+                    int optionExtraPrice = 0;
+                    // 만약 옵션 가격 데이터가 CartItem에 있다면 추가해주세요
+                    // 예: item.getSelectedOptions() -> 옵션 총 추가금 계산 코드 삽입 필요
+                    return (item.getMenu().getPrice() + optionExtraPrice) * item.getQuantity();
+                })
+                .sum();
+
+        return CartResponseDto.builder()
+                .userId(user.getUserId())
+                .restaurantId(cart.getRestaurant().getRestaurantId())
+                .cartItemList(cartItemResponseList)
+                .totalPrice(totalPrice)
+                .build();
     }
 
     public void updateCartItem(Long cartItemId, Integer quantity) {
