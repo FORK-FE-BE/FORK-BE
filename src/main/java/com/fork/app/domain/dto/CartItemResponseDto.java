@@ -23,6 +23,9 @@ public class CartItemResponseDto {
     @Schema(description = "수량", example = "2")
     private int quantity;
 
-    @Schema(description = "메뉴 단가", example = "9000")
+    @Schema(description = "메뉴 단가", example = "2000")
     private int price;
+
+    @Schema(description = "메뉴 단가", example = "9000")
+    private int totalPrice;
 }
