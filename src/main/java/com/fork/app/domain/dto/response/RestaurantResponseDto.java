@@ -1,4 +1,4 @@
-package com.fork.app.domain.dto;
+package com.fork.app.domain.dto.response;
 
 import com.fork.app.domain.entity.enumtype.RestaurantCategoryEnum;
 import io.swagger.v3.oas.annotations.media.Schema;

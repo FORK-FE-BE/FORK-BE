@@ -1,4 +1,4 @@
-package com.fork.app.domain.dto;
+package com.fork.app.domain.dto.response;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

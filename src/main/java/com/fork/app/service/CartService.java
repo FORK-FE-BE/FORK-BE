@@ -1,8 +1,8 @@
 package com.fork.app.service;
 
-import com.fork.app.domain.dto.CartItemResponseDto;
-import com.fork.app.domain.dto.CartRequestDto;
-import com.fork.app.domain.dto.CartResponseDto;
+import com.fork.app.domain.dto.response.CartItemResponseDto;
+import com.fork.app.domain.dto.request.CartRequestDto;
+import com.fork.app.domain.dto.response.CartResponseDto;
 import com.fork.app.domain.entity.*;
 import com.fork.app.repository.*;
 import jakarta.transaction.Transactional;
@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

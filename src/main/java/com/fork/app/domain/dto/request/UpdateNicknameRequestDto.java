@@ -1,4 +1,4 @@
-package com.fork.app.domain.dto;
+package com.fork.app.domain.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

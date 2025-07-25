@@ -1,7 +1,7 @@
 package com.fork.app.controller;
 
-import com.fork.app.domain.dto.CartRequestDto;
-import com.fork.app.domain.dto.UpdateQuantityRequest;
+import com.fork.app.domain.dto.request.CartRequestDto;
+import com.fork.app.domain.dto.request.UpdateQuantityRequest;
 import com.fork.app.service.CartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

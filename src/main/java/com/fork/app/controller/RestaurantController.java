@@ -1,10 +1,8 @@
 package com.fork.app.controller;
 
-import com.fork.app.domain.dto.MenuResponseDto;
-import com.fork.app.domain.dto.RestaurantDetailResponseDto;
-import com.fork.app.domain.dto.RestaurantListResponseDto;
-import com.fork.app.domain.dto.RestaurantResponseDto;
-import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;
+import com.fork.app.domain.dto.response.MenuResponseDto;
+import com.fork.app.domain.dto.response.RestaurantDetailResponseDto;
+import com.fork.app.domain.dto.response.RestaurantListResponseDto;
 import com.fork.app.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
