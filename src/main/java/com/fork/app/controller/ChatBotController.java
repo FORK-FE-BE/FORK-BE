@@ -15,11 +15,11 @@ public class ChatBotController {
         this.openAiChatModel = openAiChatModel;
     }
 
-    @GetMapping("/api/chatbot")
+    @PostMapping("/api/chatbot")
     public ResponseEntity<?> chat(@RequestBody String message) {
         Map<String, String> responses = new HashMap<>();
         String openAiResponse = openAiChatModel.call(message);
-        responses.put("openai(chatGPT) 응답", openAiResponse);
+        responses.put("response", openAiResponse);
         return ResponseEntity.ok().body(responses);
     }
 }
