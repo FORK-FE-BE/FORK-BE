@@ -1,9 +1,8 @@
 package com.fork.app.service;
 
-import com.fork.app.domain.dto.MenuResponseDto;
-import com.fork.app.domain.dto.RestaurantDetailResponseDto;
-import com.fork.app.domain.dto.RestaurantListResponseDto;
-import com.fork.app.domain.dto.RestaurantResponseDto;
+import com.fork.app.domain.dto.response.MenuResponseDto;
+import com.fork.app.domain.dto.response.RestaurantDetailResponseDto;
+import com.fork.app.domain.dto.response.RestaurantListResponseDto;
 import com.fork.app.domain.entity.Menu;
 import com.fork.app.domain.entity.Restaurant;
 import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;

@@ -1,8 +1,8 @@
 package com.fork.app.controller;
 
-import com.fork.app.domain.dto.KakaoLoginDto;
-import com.fork.app.domain.dto.UpdateNicknameRequestDto;
-import com.fork.app.domain.dto.UserInfoResponseDto;
+import com.fork.app.domain.dto.request.KakaoLoginDto;
+import com.fork.app.domain.dto.request.UpdateNicknameRequestDto;
+import com.fork.app.domain.dto.response.UserInfoResponseDto;
 import com.fork.app.domain.entity.User;
 import com.fork.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

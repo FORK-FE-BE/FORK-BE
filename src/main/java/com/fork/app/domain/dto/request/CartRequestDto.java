@@ -1,10 +1,7 @@
-package com.fork.app.domain.dto;
+package com.fork.app.domain.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Schema(description = "장바구니 요청 DTO")

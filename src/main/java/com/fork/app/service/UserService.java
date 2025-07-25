@@ -1,8 +1,8 @@
 package com.fork.app.service;
 
 
-import com.fork.app.domain.dto.KakaoLoginDto;
-import com.fork.app.domain.dto.UserInfoResponseDto;
+import com.fork.app.domain.dto.request.KakaoLoginDto;
+import com.fork.app.domain.dto.response.UserInfoResponseDto;
 import com.fork.app.domain.entity.User;
 import com.fork.app.domain.entity.enumtype.MemberRole;
 import com.fork.app.repository.UserRepository;
