@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -71,5 +72,9 @@ public class UserService {
                 .name(user.getName())
                 .build();
         return userDto;
+    }
+
+    public User findById(Long userId){
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
     }
 }

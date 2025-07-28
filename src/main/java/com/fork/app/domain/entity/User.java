@@ -1,4 +1,5 @@
 package com.fork.app.domain.entity;
+import com.fork.app.domain.dto.response.UserInfoResponseDto;
 import com.fork.app.domain.entity.enumtype.MemberRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,15 +32,30 @@ public class User {
     private LocalDateTime createdDate; //가입일자
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")
-    private List<Address> address= new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses= new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cart> carts = new ArrayList<>();
 
     public void changeNickname(String nickname){
         this.name = nickname;
+    }
+
+    public void addAddress(Address address) {
+        address.setUser(this);
+        this.getAddresses().add(address);
+    }
+
+    public UserInfoResponseDto entityToDto() {
+        return UserInfoResponseDto.builder()
+                .userId(this.getUserId())
+                .name(this.getName())
+                .role(this.getRole())
+                .email(this.getEmail())
+                .createdDate(this.getCreatedDate())
+                .build();
     }
 //    @Column(nullable = false, length = 11)
 //    private String phone;

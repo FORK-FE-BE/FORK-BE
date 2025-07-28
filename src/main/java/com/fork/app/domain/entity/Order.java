@@ -22,21 +22,22 @@ public class Order {
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurantId", nullable = false)
-    private Restaurant restaurant;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private String paymentMethod;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menuId", nullable = false)
+    private Menu menu;
+
+    @OneToOne
+    private Address address;
 
     @Column(nullable = false)
-    private Integer totalPrice;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
-    @Column(length = 255)
-    private String requests;
+    @OneToOne
+    private Payment payment;
 
     @Column(nullable = false)
     private LocalDateTime createdDate;
@@ -44,11 +45,8 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime modifiedDate;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
-
     @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
+
 }

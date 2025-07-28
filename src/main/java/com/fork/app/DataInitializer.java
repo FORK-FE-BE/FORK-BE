@@ -54,7 +54,7 @@ public class DataInitializer {
                         .restaurantCategoryEnum(restaurantCategoryEnum) // 현재 반복중인 카테고리명 세팅
                         .storePictureUrl(dto.getStorePictureUrl() != null ? dto.getStorePictureUrl() : List.of())
                         // 이하 필수 필드는 임시 기본값 지정 (실제 값으로 변경 필요)
-                        .address("기본주소") // 주소 기본값
+//                        .address("기본주소") // 주소 기본값
                         .phone("010-0000-0000") // 전화번호 기본값
                         .minDeliveryPrice(10000) // 최소배달가격 예시
                         .deliveryTip(3000) // 배달팁 예시

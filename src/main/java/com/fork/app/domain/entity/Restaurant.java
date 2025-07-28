@@ -3,6 +3,7 @@ package com.fork.app.domain.entity;
 import com.fork.app.domain.entity.enumtype.RestaurantCategoryEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,11 +29,11 @@ public class Restaurant {
     @Enumerated(EnumType.STRING)
     private RestaurantCategoryEnum restaurantCategoryEnum;
 
-    @Column(nullable = false, length = 255)
-    private String address;
+    @Embedded
+    private RAddress address;
 
     // 이 식당이 가진 메뉴들
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Menu> menus = new ArrayList<>();
 
@@ -46,7 +47,6 @@ public class Restaurant {
     @Builder.Default
     private List<String> storePictureUrl = new ArrayList<>();
 
-    @Column(nullable = false, length = 20)
     private String phone;
 
     @Column(length = 255)
