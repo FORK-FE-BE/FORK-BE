@@ -25,6 +25,8 @@ public class OrderItem {
     private Menu menu;
 
     private int quantity;
+
     private int price;
-    private String selectedOptions;
+
+    private int totalPrice;
 }

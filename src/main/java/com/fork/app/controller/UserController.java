@@ -2,14 +2,18 @@ package com.fork.app.controller;
 
 import com.fork.app.domain.dto.request.KakaoLoginDto;
 import com.fork.app.domain.dto.request.UpdateNicknameRequestDto;
+import com.fork.app.domain.dto.request.UserAddressRequestDto;
 import com.fork.app.domain.dto.response.UserInfoResponseDto;
+import com.fork.app.domain.entity.Address;
 import com.fork.app.domain.entity.User;
+import com.fork.app.service.AddressService;
 import com.fork.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
@@ -38,26 +42,18 @@ public class UserController {
     }
 
 
-    @Operation(summary = "유저 정보 조회", description = "userId를 기반으로 유저 정보를 조회합니다.")
+    @Operation(summary = "사용자 정보 조회", description = "userId를 기반으로 유저 정보를 조회합니다.")
     @GetMapping("/api/user")
     public ResponseEntity<?> getUserInfo(
             @Parameter(description = "유저 ID", example = "1")
             @RequestParam Long userId) {
-
         User user = userService.getUserInfo(userId);
-
-        UserInfoResponseDto responseDto = UserInfoResponseDto.builder()
-                .userId(user.getUserId())
-                .name(user.getName())
-                .role(user.getRole())
-                .email(user.getEmail())
-                .createdDate(user.getCreatedDate())
-                .build();
+        UserInfoResponseDto responseDto = user.entityToDto();
 
         return ResponseEntity.ok().body(responseDto);
     }
 
-    @Operation(summary = "유저 닉네임 수정", description = "userId를 기반으로 닉네임을 수정합니다.")
+    @Operation(summary = "사용자 닉네임 수정", description = "userId를 기반으로 닉네임을 수정합니다.")
     @PutMapping("/api/user/profile/name")
     public ResponseEntity<?> modifyProfile(
             @RequestBody UpdateNicknameRequestDto requestDto){

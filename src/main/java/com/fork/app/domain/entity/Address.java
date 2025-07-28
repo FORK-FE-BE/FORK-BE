@@ -1,31 +1,32 @@
 package com.fork.app.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private Long id;
 
-    private String city;         // 서울특별시
-    private String district;     // 마포구
-    private String detail;       // 와우산로 94
+    private String province;        // 시/도
+    private String city;            //시/군/구
+    private String roadName;        //	도로명
+    private String buildingNumber;  //	건물 번호
+    private String detail;          // 상세주소 (호수, 층수, 기타 등)
+    private String postalCode;      //우편번호
 
-    private boolean isDefault;   // 기본 배송지 여부
-
-//    private Double latitude;     // 위도 (선택)
-//    private Double longitude;    // 경도 (선택)
-
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
+    private int isDefault; //0 또는 1로 설정
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

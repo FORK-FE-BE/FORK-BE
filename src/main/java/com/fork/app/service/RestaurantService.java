@@ -1,5 +1,7 @@
 package com.fork.app.service;
 
+import com.fork.app.domain.dto.request.MenuRequestDto;
+import com.fork.app.domain.dto.request.RestaurantRequestDto;
 import com.fork.app.domain.dto.response.MenuResponseDto;
 import com.fork.app.domain.dto.response.RestaurantDetailResponseDto;
 import com.fork.app.domain.dto.response.RestaurantListResponseDto;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -114,5 +117,55 @@ public class RestaurantService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 메뉴를 찾을 수 없습니다."));
         return menuResponseDto;
     }
+
+    public void createRestaurantWithMenus(RestaurantRequestDto requestDto) {
+        // 1. Restaurant 엔티티 생성
+        Restaurant restaurant = Restaurant.builder()
+                .name(requestDto.getName())
+                .deliveryTip(requestDto.getDeliveryTip())
+                .address(requestDto.getAddress())
+                .storePictureUrl(requestDto.getStorePictureUrl())
+                .minDeliveryTime(requestDto.getMinDeliveryTime())
+                .maxDeliveryTime(requestDto.getMaxDeliveryTime())
+                .minDeliveryPrice(requestDto.getMinDeliveryPrice())
+                .hasCoupon(requestDto.getHasCoupon())
+                .createdDate(LocalDateTime.now())
+                .rating(requestDto.getRating())
+                .restaurantCategoryEnum(RestaurantCategoryEnum.valueOf(requestDto.getRestaurantCategory()))
+                .reviewCount(requestDto.getReviewCount())
+                .build();
+        restaurant.getMenus().size();
+        Map<String, List<MenuRequestDto>> menusMap = requestDto.getMenus();
+        List<Menu> menuEntities = new ArrayList<>();
+        for (Map.Entry<String, List<MenuRequestDto>> entry : menusMap.entrySet()) {
+            String categoryName = entry.getKey(); // "대표메뉴", "세트메뉴" 등
+            MenuCategoryEnum categoryEnum = MenuCategoryEnum.valueOf(categoryName); // 반드시 Enum 이름과 일치해야 함
+
+            for (MenuRequestDto dto : entry.getValue()) {
+                Menu menu = Menu.builder()
+                        .name(dto.getName())
+                        .price(dto.getPrice())
+                        .imgUrl(dto.getImgUrl())
+                        .category(categoryEnum)
+                        .restaurant(restaurant)
+                        .build();
+                menuEntities.add(menu);
+            }
+        }
+
+        restaurant.getMenus().addAll(menuEntities); // 역방향 설정 (필요 시)
+
+        // 3. 저장 (cascade 설정되어 있으므로 menu 자동 저장됨)
+        restaurantRepository.save(restaurant);
+    }
+
+    public void updateRestaurantImages(Long restaurantId, List<String> imageUrls) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 식당입니다."));
+
+        restaurant.setStorePictureUrl(imageUrls);
+        // 변경감지(dirty checking)로 트랜잭션 끝나면 자동 반영됨
+    }
+
 }
 
