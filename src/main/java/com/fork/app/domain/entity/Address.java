@@ -1,5 +1,6 @@
 package com.fork.app.domain.entity;
 
+import com.fork.app.domain.dto.response.AddressResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +30,21 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+
+    private String label;  // 주소 별칭 (예: 집, 회사, 부모님 집 등)
+
+    public AddressResponseDto entityToDto(){
+        return AddressResponseDto.builder()
+                .province(this.province)
+                .city(this.city)
+                .roadName(this.roadName)
+                .buildingNumber(this.buildingNumber)
+                .detail(this.detail)
+                .postalCode(this.postalCode)
+                .isDefault(this.getIsDefault())
+                .label(this.label)
+                .build();
+
+    }
 }

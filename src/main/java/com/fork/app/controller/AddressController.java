@@ -1,6 +1,7 @@
 package com.fork.app.controller;
 
 import com.fork.app.domain.dto.request.UserAddressRequestDto;
+import com.fork.app.domain.dto.response.AddressResponseDto;
 import com.fork.app.domain.entity.Address;
 import com.fork.app.domain.entity.User;
 import com.fork.app.service.AddressService;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,6 +25,20 @@ public class AddressController {
 
     private final UserService userService;
     private final AddressService addressService;
+
+    @Operation(summary = "사용자 주소 불러오기", description = "userId를 기반으로 주소들을 불러옵니다.")
+    @GetMapping("/api/user/{userId}/profile/address")
+    public ResponseEntity<?> getAddresses(@PathVariable Long userId) {
+        User user = userService.findById(userId);
+        List<Address> addresses = addressService.findAllByUser(user);
+        List<AddressResponseDto> responseDtos = new ArrayList<>();
+
+        for (Address address : addresses) {
+            responseDtos.add(address.entityToDto());
+        }
+
+        return ResponseEntity.ok().body(responseDtos);
+    }
 
     @Operation(summary = "사용자 주소 추가", description = "userId를 기반으로 주소를 추가합니다.")
     @PostMapping("/api/user/{userId}/profile/address")
