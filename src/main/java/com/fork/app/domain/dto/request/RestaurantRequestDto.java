@@ -1,11 +1,7 @@
 package com.fork.app.domain.dto.request;
 
-import com.fork.app.domain.dto.MenuJsonDto;
-import com.fork.app.domain.entity.RAddress;
-import com.fork.app.domain.entity.enumtype.RestaurantCategoryEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,7 +12,7 @@ import java.util.Map;
 public class RestaurantRequestDto {
     private String name;
     private String restaurantCategory;
-    private RAddress address;
+    private RAddressRequestDto address;
     private Integer minDeliveryPrice;
     private Integer deliveryTip;
     private Integer minDeliveryTime;
@@ -27,4 +23,8 @@ public class RestaurantRequestDto {
     private Boolean hasCoupon;
     private List<String> storePictureUrl;
     private Map<String, List<MenuRequestDto>> menus; // 메뉴별 DTO 리스트
+
+
+    private String fullRoadAddress; // 예: "서울특별시 성북구 종암로 10길 23"
+
 }

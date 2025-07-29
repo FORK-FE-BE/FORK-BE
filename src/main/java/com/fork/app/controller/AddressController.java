@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@Tag(name = "Address", description = "주소 관련 API")
+@Tag(name = "주소 API", description = "주소 관련 API")
 public class AddressController {
 
     private final UserService userService;

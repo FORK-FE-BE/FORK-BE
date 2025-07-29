@@ -1,7 +1,6 @@
 package com.fork.app.domain.entity;
 
-import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;
-import com.fork.app.domain.entity.enumtype.RestaurantCategoryEnum;
+import com.fork.app.domain.dto.response.MenuResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,8 +21,12 @@ public class Menu {
     @JoinColumn(name = "restaurantId", nullable = false)
     private Restaurant restaurant;
 
-    @Column(nullable = false)
-    private MenuCategoryEnum category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private MenuCategory category;
+
+//    @Column(nullable = false)
+//    private MenuCategoryEnum category;
 
     @Column(nullable = false, length = 255)
     private String name;
@@ -40,6 +43,16 @@ public class Menu {
 
 //    @Column(nullable = false, length = 255)
     private String status;
+
+    public MenuResponseDto entityToDto() {
+        return MenuResponseDto.builder()
+                .menuId(this.getMenuId())
+                .name(this.getName())
+                .price(this.getPrice())
+                .imgUrl(this.getImgUrl())
+                .category(this.getCategory().getName())
+                .build();
+    }
 
     //    @Column(columnDefinition = "TEXT")
 //    private String menuPictureUrl;

@@ -5,6 +5,7 @@ import com.fork.app.domain.dto.request.RestaurantRequestDto;
 import com.fork.app.domain.dto.response.MenuResponseDto;
 import com.fork.app.domain.dto.response.RestaurantDetailResponseDto;
 import com.fork.app.domain.dto.response.RestaurantListResponseDto;
+import com.fork.app.domain.entity.enumtype.RestaurantCategoryEnum;
 import com.fork.app.service.MenuService;
 import com.fork.app.service.RestaurantService;
 import com.fork.app.service.S3UploaderService;
@@ -37,7 +38,7 @@ public class RestaurantController {
     @Operation(summary = "카테고리별 음식점 조회", description = "카테고리를 통해 해당 음식점 리스트를 조회합니다.")
     @GetMapping("/api/{categoryname}/restaurants")
     public ResponseEntity<?> getRestaurantsByCategory(@PathVariable String categoryname) {
-        List<RestaurantListResponseDto> restaurantsByCategory = restaurantService.getRestaurantsByCategory(categoryname);
+        List<RestaurantListResponseDto> restaurantsByCategory = restaurantService.getRestaurantsByCategory(RestaurantCategoryEnum.valueOf(categoryname));
         return ResponseEntity.ok().body(restaurantsByCategory);
     }
 
