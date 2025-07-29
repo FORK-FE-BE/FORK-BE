@@ -18,8 +18,8 @@ public class RestaurantListResponseDto {
     @Schema(description = "식당 이름", example = "짬뽕지존 1호점")
     private String name;
 
-    @Schema(description = "식당의 대표 메뉴 이미지 URL 리스트", example = "[\"https://example.com/menu1.jpg\", \"https://example.com/menu2.jpg\"]")
-    private List<String> menus;
+    @Schema(description = "식당의 메뉴 이미지 URL 리스트", example = "[\"https://example.com/menu1.jpg\", \"https://example.com/menu2.jpg\"]")
+    private List<MenuResponseDto> menus;
 
     @Schema(description = "식당 평점 (0.0 ~ 5.0)", example = "4.5")
     private BigDecimal rating;

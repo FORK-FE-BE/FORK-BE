@@ -1,6 +1,5 @@
 package com.fork.app.domain.dto.response;
 
-import com.fork.app.domain.entity.enumtype.MenuCategoryEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,7 @@ public class MenuResponseDto {
     private Integer price;
 
     @Schema(description = "메뉴 카테고리", example = "대표메뉴")
-    private MenuCategoryEnum category;
+    private String category;
 
     @Schema(description = "메뉴 이미지 URL", example = "https://fork-app-assets.s3.ap-northeast-2.amazonaws.com/menus/짬뽕.jpg")
     private String imgUrl;

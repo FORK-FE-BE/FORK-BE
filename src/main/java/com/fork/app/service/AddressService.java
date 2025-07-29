@@ -33,14 +33,7 @@ public class AddressService {
 
     // 📌 Update
     public Address updateAddress(Long id, Address updated) {
-        Address address = findById(id); // 기존 주소 조회
-        address.setProvince(updated.getProvince());
-        address.setCity(updated.getCity());
-        address.setRoadName(updated.getRoadName());
-        address.setBuildingNumber(updated.getBuildingNumber());
-        address.setDetail(updated.getDetail());
-        address.setPostalCode(updated.getPostalCode());
-        address.setIsDefault(updated.getIsDefault());
+        Address address = getAddress(id, updated);
         return addressRepository.save(address); // 업데이트 후 저장
     }
 
@@ -61,9 +54,23 @@ public class AddressService {
         }
         // 2. 새로운 기본 주소로 지정
         Address target = findById(addressId);
+
         if (!target.getUser().getUserId().equals(user.getUserId())) {
             throw new IllegalArgumentException("해당 주소는 해당 유저의 주소가 아닙니다.");
         }
         target.setIsDefault(1);
+    }
+
+
+    private Address getAddress(Long id, Address updated) {
+        Address address = findById(id); // 기존 주소 조회
+        address.setProvince(updated.getProvince());
+        address.setCity(updated.getCity());
+        address.setRoadName(updated.getRoadName());
+        address.setBuildingNumber(updated.getBuildingNumber());
+        address.setDetail(updated.getDetail());
+        address.setPostalCode(updated.getPostalCode());
+        address.setIsDefault(updated.getIsDefault());
+        return address;
     }
 }

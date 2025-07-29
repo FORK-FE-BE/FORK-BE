@@ -1,15 +1,14 @@
-package com.fork.app.domain.entity;
+package com.fork.app.domain.dto.request;
 
-import jakarta.persistence.Embeddable;
+
 import lombok.*;
 
-@Embeddable
-@Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class RAddress {
+@Getter
+@Setter
+public class RAddressRequestDto {
     private String province;
     private String city;
     private String roadName;
