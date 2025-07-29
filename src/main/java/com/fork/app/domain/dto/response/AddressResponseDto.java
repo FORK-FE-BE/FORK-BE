@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(description = "주소 응답 DTO")
 public class AddressResponseDto {
+    private Long id;
     private String province;        // 시/도
     private String city;            //시/군/구
     private String roadName;        //	도로명
