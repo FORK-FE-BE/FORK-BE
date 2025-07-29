@@ -1,9 +1,12 @@
 package com.fork.app.repository;
 
 import com.fork.app.domain.entity.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     // 1) 전체 User 반환
@@ -13,5 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u.email from User u where u.email = :email")
     String findEmailByEmail(@Param("email") String email);
 
-    User findByUserId(Long userId);
+    @EntityGraph(attributePaths = {"addresses"})
+    Optional<User> findById(Long userId);
 }

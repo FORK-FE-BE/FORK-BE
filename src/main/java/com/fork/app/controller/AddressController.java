@@ -44,13 +44,10 @@ public class AddressController {
     @PostMapping("/api/user/{userId}/profile/address")
     public ResponseEntity<?> addAddress(@RequestBody UserAddressRequestDto requestDto, @PathVariable Long userId) {
         User user = userService.findById(userId);
-        Address address = requestDto.dtoToEntity();
-        user.addAddress(address);
-        addressService.save(address);
+        addressService.addAddress(requestDto, user);
 
         return ResponseEntity.ok(Map.of(
-                "message", "주소가 성공적으로 등록되었습니다.",
-                "addressId", address.getId()
+                "message", "주소가 성공적으로 등록되었습니다."
         ));
     }
 

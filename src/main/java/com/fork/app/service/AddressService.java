@@ -1,6 +1,7 @@
 package com.fork.app.service;
 
 
+import com.fork.app.domain.dto.request.UserAddressRequestDto;
 import com.fork.app.domain.entity.Address;
 import com.fork.app.domain.entity.User;
 import com.fork.app.repository.AddressRepository;
@@ -72,5 +73,11 @@ public class AddressService {
         address.setPostalCode(updated.getPostalCode());
         address.setIsDefault(updated.getIsDefault());
         return address;
+    }
+
+    public void addAddress(UserAddressRequestDto requestDto, User user) {
+        Address address = requestDto.dtoToEntity();
+        user.addAddress(address);
+        addressRepository.save(address);
     }
 }

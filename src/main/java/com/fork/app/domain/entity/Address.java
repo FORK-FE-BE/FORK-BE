@@ -36,6 +36,7 @@ public class Address {
 
     public AddressResponseDto entityToDto(){
         return AddressResponseDto.builder()
+                .id(this.id)
                 .province(this.province)
                 .city(this.city)
                 .roadName(this.roadName)
