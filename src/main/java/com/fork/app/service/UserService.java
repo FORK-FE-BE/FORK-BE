@@ -3,6 +3,7 @@ package com.fork.app.service;
 
 import com.fork.app.domain.dto.request.KakaoLoginDto;
 import com.fork.app.domain.dto.response.UserInfoResponseDto;
+import com.fork.app.domain.entity.Address;
 import com.fork.app.domain.entity.User;
 import com.fork.app.domain.entity.enumtype.MemberRole;
 import com.fork.app.repository.UserRepository;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -77,4 +79,6 @@ public class UserService {
     public User findById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
     }
+
+
 }
