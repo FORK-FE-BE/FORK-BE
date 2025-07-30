@@ -1,6 +1,5 @@
 package com.fork.app.controller;
 
-import com.fork.app.domain.dto.request.MenuRequestDto;
 import com.fork.app.domain.dto.request.RestaurantRequestDto;
 import com.fork.app.domain.dto.response.MenuResponseDto;
 import com.fork.app.domain.dto.response.RestaurantDetailResponseDto;
@@ -10,7 +9,6 @@ import com.fork.app.service.MenuService;
 import com.fork.app.service.RestaurantService;
 import com.fork.app.service.S3UploaderService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -24,9 +24,10 @@ jobs:
             cd ~/FORK-BE
             git pull origin main
             ./gradlew clean build -x test
+
           
             echo "🛑 Stopping previous app..."
-            pkill -f 'java -jar' || true
+            sudo fuser -k -n tcp 8080 || true
             sleep 3
           
             echo "🔐 Setting profile and log file..."
@@ -37,4 +38,5 @@ jobs:
           
             echo "🚀 Starting new app..."
             JAR_NAME=$(ls build/libs/*.jar | head -n 1)
-            nohup java -jar "$JAR_NAME" > app.log 2>&1 &
+            nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
+
