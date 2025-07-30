@@ -24,5 +24,5 @@ jobs:
             cd ~/FORK-BE
             git pull origin main
             ./gradlew clean build -x test
-            pkill -f 'java -jar' || true
-            nohup java -jar build/libs/*.jar > app.log 2>&1 &
+            sudo fuser -k -n tcp 8080 || true
+            nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
