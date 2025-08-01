@@ -15,19 +15,14 @@ jobs:
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.10
-        env:
-          APPLICATION_PROPERTIES: ${{ secrets.APPLICATION_PROPERTIES }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: APPLICATION_PROPERTIES
           port: 22  # ← 여기는 SSH 포트입니다. 8080 아님!
           script: |
             cd ~/FORK-BE
-            rm -rf src/main/resources/application.yml
             git pull origin main
-            echo "$APPLICATION_PROPERTIES" > src/main/resources/application.yml
             ./gradlew clean build -x test
             sudo fuser -k -n tcp 8080 || true
             nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
