@@ -1,9 +1,11 @@
 package com.fork.app.service;
 
 
+import com.fork.app.domain.dto.response.AllergyResponseDto;
+import com.fork.app.domain.dto.request.AllergyMenu;
 import com.fork.app.domain.dto.request.KakaoLoginDto;
 import com.fork.app.domain.dto.response.UserInfoResponseDto;
-import com.fork.app.domain.entity.Address;
+import com.fork.app.domain.entity.RestrictedFood;
 import com.fork.app.domain.entity.User;
 import com.fork.app.domain.entity.enumtype.MemberRole;
 import com.fork.app.repository.UserRepository;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -23,6 +25,7 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
+
     public boolean isExistMember(String email) {
         return userRepository.findByEmail(email) != null;
     }
@@ -79,6 +82,26 @@ public class UserService {
     public User findById(Long userId){
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
     }
+    public List<String> getAllergyByUserId(Long userId) {
+        User user = findById(userId);
+        return user.getRestrictedFoods().stream()
+                .map(RestrictedFood::getName)
+                .filter(Objects::nonNull) // name이 null인 항목 제외
+                .toList();
+    }
 
+    public void addAllergy(Long userId, List<String> allergy) {
+        User user = findById(userId);
+        // 새로 설정할 알러지 리스트 생성
+        List<RestrictedFood> allergyList = allergy.stream()
+                .map(menu -> RestrictedFood.builder()
+                        .name(menu)
+                        .user(user)
+                        .build())
+                .toList();
 
+        // 기존 알러지 제거 후 새로 추가
+        user.getRestrictedFoods().clear();
+        user.getRestrictedFoods().addAll(allergyList);
+    }
 }

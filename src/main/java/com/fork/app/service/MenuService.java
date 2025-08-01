@@ -32,12 +32,11 @@ public class MenuService {
                         .id(menu.getMenuId())
                         .menu(menu.getName())
                         .restaurant(menu.getRestaurant().getName())
+                        .address(menu.getRestaurant().getAddress())
                         .restaurantId(menu.getRestaurant().getRestaurantId())
                         .category(String.valueOf(menu.getRestaurant().getRestaurantCategoryEnum()))
                         .price(menu.getPrice())
                         .hasAR(menu.getRestaurant().isHasAR())
-                        .latitude(menu.getRestaurant().getAddress().getLatitude())
-                        .longitude(menu.getRestaurant().getAddress().getLongitude())
                         .build())
                 .collect(Collectors.toList());
     }

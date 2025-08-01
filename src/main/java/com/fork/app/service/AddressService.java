@@ -70,6 +70,7 @@ public class AddressService {
         address.setRoadName(updated.getRoadName());
         address.setBuildingNumber(updated.getBuildingNumber());
         address.setDetail(updated.getDetail());
+        address.setLabel(updated.getLabel());
         address.setPostalCode(updated.getPostalCode());
         address.setIsDefault(updated.getIsDefault());
         return address;

@@ -1,21 +1,20 @@
 package com.fork.app.controller;
 
+import com.fork.app.domain.dto.request.AllergyRequestDto;
 import com.fork.app.domain.dto.request.KakaoLoginDto;
 import com.fork.app.domain.dto.request.UpdateNicknameRequestDto;
-import com.fork.app.domain.dto.request.UserAddressRequestDto;
 import com.fork.app.domain.dto.response.UserInfoResponseDto;
-import com.fork.app.domain.entity.Address;
 import com.fork.app.domain.entity.User;
-import com.fork.app.service.AddressService;
 import com.fork.app.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,7 +36,6 @@ public class UserController {
         }else{
             responseDto = userService.findByEmail(kakaoLoginDTO.getEmail());// 기존 유저 정보 가져오기
         }
-//        Map<String, String> token = userService.generateToken(kakaoLoginDTO.getEmail());
         return ResponseEntity.ok().body(responseDto);
     }
 
@@ -60,6 +58,22 @@ public class UserController {
 
         userService.updateNickname(requestDto.getUserId(), requestDto.getNickname());
         return ResponseEntity.ok(Map.of("result", "success"));
+    }
+
+    @Operation(summary = "사용자 알러지 목록 조회", description = "userId를 기반으로 알러지(못 먹는 음식) 목록을 조회합니다.")
+    @GetMapping("/api/user/{userId}/allergies")
+    public ResponseEntity<?> getAllergies(@PathVariable Long userId) {
+        List<String> allergyList = userService.getAllergyByUserId(userId);
+        return ResponseEntity.ok().body(allergyList);
+    }
+
+    @Operation(summary = "사용자 알러지 추가", description = "userId를 기반으로 알러지(못 먹는 음식)를 추가합니다.")
+    @PostMapping("/api/user/{userId}/allergies/add")
+    public ResponseEntity<?> addAllergy(@PathVariable Long userId, @RequestBody AllergyRequestDto requestDto) {
+        userService.addAllergy(userId, requestDto.getAllergy());
+        return ResponseEntity.ok().body(
+                Map.of("result", "success")
+        );
     }
 
 //    @GetMapping("/api/users/reviews") //TODO 작성한 리뷰 조회
