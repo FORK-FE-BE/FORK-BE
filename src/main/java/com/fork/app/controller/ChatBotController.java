@@ -45,6 +45,6 @@ public class ChatBotController {
         request.put("restrictions", List.of("치즈")); // 못 먹는 음식
         request.put("previousResults", List.of());
         ResponseEntity<Map> pythonResponse = restTemplate.postForEntity(pythonApiUrl, request, Map.class);
-        return ResponseEntity.ok(pythonResponse.getBody());
+        return ResponseEntity.ok().body(pythonResponse.getBody());
     }
 }
