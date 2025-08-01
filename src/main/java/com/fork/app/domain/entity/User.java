@@ -39,6 +39,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Cart> carts = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RestrictedFood> restrictedFoods = new ArrayList<>();
+
+
     public void changeNickname(String nickname){
         this.name = nickname;
     }
@@ -61,13 +66,4 @@ public class User {
 //    private String phone;
 
 
-//    @Column(length = 255)
-//    private String currentAddress;
-
-
-//    @Column(nullable = false)
-//    private LocalDateTime modifiedDate;
-
-//    @Column(length = 20)
-//    private String allergy;
 }

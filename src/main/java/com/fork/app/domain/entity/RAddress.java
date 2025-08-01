@@ -16,7 +16,6 @@ public class RAddress {
     private String buildingNumber;
     private String detail;
     private String postalCode;
-
     private Double latitude;
     private Double longitude;
 }

@@ -19,24 +19,10 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
+          port: 22  # ← 여기는 SSH 포트입니다. 8080 아님!
           script: |
             cd ~/FORK-BE
             git pull origin main
             ./gradlew clean build -x test
-
-          
-            echo "🛑 Stopping previous app..."
             sudo fuser -k -n tcp 8080 || true
-            sleep 3
-          
-            echo "🔐 Setting profile and log file..."
-            export SPRING_PROFILES_ACTIVE=prod
-            rm -f app.log
-            touch app.log
-            chmod 666 app.log
-          
-            echo "🚀 Starting new app..."
-            JAR_NAME=$(ls build/libs/*.jar | head -n 1)
             nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
-

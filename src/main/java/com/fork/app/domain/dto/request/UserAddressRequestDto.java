@@ -21,13 +21,13 @@ public class UserAddressRequestDto {
     public Address dtoToEntity(){
         Address address = Address.builder()
 
-                .province(this.province)
-                .city(this.city)
-                .roadName(this.roadName)
-                .buildingNumber(this.buildingNumber)
-                .detail(this.detail)
-                .postalCode(this.postalCode)
-                .label(this.label)
+                .province(province)
+                .city(city)
+                .roadName(roadName)
+                .buildingNumber(buildingNumber)
+                .detail(detail)
+                .postalCode(postalCode)
+                .label(label)
                 .build();
         return address;
     }
