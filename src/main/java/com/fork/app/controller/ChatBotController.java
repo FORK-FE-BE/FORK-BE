@@ -30,7 +30,7 @@ public class ChatBotController {
     @Operation(summary = "챗봇 응답", description = "사용자 메시지를 파이썬 서버로 전달 후 응답 반환")
     @PostMapping("/api/chatbot")
     public ResponseEntity<?> chat(@RequestBody ChatbotRequestDto chatbotRequest) {
-        String pythonApiUrl = "http://localhost:8000/recommend";
+        String pythonApiUrl = "http://flask-recommender:8000/recommend";
         User user = userService.findById(chatbotRequest.getUserId());
         List<RestrictedFood> restrictedFoods = user.getRestrictedFoods();
         List<String> restrictions = new ArrayList<>();
