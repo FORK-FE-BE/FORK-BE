@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Builder
 @Data
 @Schema(description = "메뉴 응답 DTO")
@@ -23,4 +25,34 @@ public class MenuResponseDto {
 
     @Schema(description = "메뉴 이미지 URL", example = "https://fork-app-assets.s3.ap-northeast-2.amazonaws.com/menus/짬뽕.jpg")
     private String imgUrl;
+
+    @Schema(description = "옵션 그룹 목록")
+    private List<OptionGroupDto> optionGroups;
+
+    @Builder
+    @Data
+    @Schema(description = "옵션 그룹 DTO")
+    public static class OptionGroupDto {
+
+        @Schema(description = "옵션 그룹 이름", example = "추가 토핑")
+        private String name;
+
+        @Schema(description = "필수 여부", example = "false")
+        private boolean required;
+
+        @Schema(description = "옵션 목록")
+        private List<OptionDto> options;
+    }
+
+    @Builder
+    @Data
+    @Schema(description = "옵션 DTO")
+    public static class OptionDto {
+
+        @Schema(description = "옵션 이름", example = "치즈 추가")
+        private String name;
+
+        @Schema(description = "옵션 추가 금액", example = "1000")
+        private int price;
+    }
 }
