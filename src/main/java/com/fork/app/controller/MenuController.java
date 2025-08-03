@@ -1,6 +1,7 @@
 package com.fork.app.controller;
 
 import com.fork.app.domain.dto.MenuVectorizeDto;
+import com.fork.app.domain.dto.response.MenuResponseDto;
 import com.fork.app.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,10 @@ public class MenuController {
     public ResponseEntity<List<MenuVectorizeDto>> getAllMenus() {
         List<MenuVectorizeDto> menus = menuService.getAllMenus();
         return ResponseEntity.ok().body(menus);
+    }
+
+    @GetMapping("/{menuId}")
+    public ResponseEntity<MenuResponseDto> getMenuDetail(@PathVariable Long menuId) {
+        return ResponseEntity.ok(menuService.getMenuDetail(menuId));
     }
 }
