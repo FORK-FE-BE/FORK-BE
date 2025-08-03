@@ -54,9 +54,10 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          script_stop: true
+          script_stop: false
           port: 22  # ← 여기는 SSH 포트입니다. 8080 아님!
           script: |
+            echo "EC2에 접속 성공"
             cd ~/springboot-server
             docker compose pull springboot-server
             docker compose up -d springboot-server
