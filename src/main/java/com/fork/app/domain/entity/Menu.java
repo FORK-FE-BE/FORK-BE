@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -53,6 +55,10 @@ public class Menu {
                 .category(this.getCategory().getName())
                 .build();
     }
+
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL)
+    private List<MenuOptionGroup> optionGroups = new ArrayList<>();
+
 
     //    @Column(columnDefinition = "TEXT")
 //    private String menuPictureUrl;
