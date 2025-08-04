@@ -56,6 +56,7 @@ public class Menu {
                 .price(this.getPrice())
                 .imgUrl(this.getImgUrl())
                 .category(this.getCategory().getName())
+                .modelName(this.getModelName())
                 .build();
     }
 
