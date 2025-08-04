@@ -55,8 +55,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
-          port: 22  # ← 여기는 SSH 포트입니다. 8080 아님!
+          port: 22
           script: |
+            aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 396913700872.dkr.ecr.ap-northeast-2.amazonaws.com
             cd ~/springboot-server
             docker compose pull springboot-server
             docker compose up -d springboot-server
