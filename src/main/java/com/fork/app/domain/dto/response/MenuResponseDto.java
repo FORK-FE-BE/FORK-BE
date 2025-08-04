@@ -26,6 +26,9 @@ public class MenuResponseDto {
     @Schema(description = "메뉴 이미지 URL", example = "https://fork-app-assets.s3.ap-northeast-2.amazonaws.com/menus/짬뽕.jpg")
     private String imgUrl;
 
+    @Schema(description = "3D 모델 파일 이름 (GLB)", example = "pizza.glb") //AR
+    private String modelName;
+
     @Schema(description = "옵션 그룹 목록")
     private List<OptionGroupDto> optionGroups;
 

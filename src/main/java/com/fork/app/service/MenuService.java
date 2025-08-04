@@ -71,6 +71,7 @@ public class MenuService {
                 .price(menu.getPrice())
                 .imgUrl(menu.getImgUrl())
                 .category(menu.getCategory().getName())
+                .modelName(menu.getModelName())
                 .optionGroups(optionGroups)
                 .build();
     }

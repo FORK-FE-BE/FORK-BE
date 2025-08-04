@@ -33,6 +33,9 @@ public class Menu {
     @Column(nullable = false, length = 255)
     private String name;
 
+    @Column(name = "model_name")
+    private String modelName;
+
     @Column(nullable = false)
     private Integer price;
 
