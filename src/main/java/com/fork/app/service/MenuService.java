@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,26 +45,39 @@ public class MenuService {
     }
 
     public MenuResponseDto getMenuDetail(Long menuId) {
-        Menu menu = menuRepository.findWithOptionGroupsByMenuId(menuId)
+        Menu menu = menuRepository.findWithOptionGroupsAndOptionsByMenuId(menuId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
 
-        // 옵션 강제 초기화 (지연 로딩 대비)
-        menu.getOptionGroups().forEach(group -> Hibernate.initialize(group.getOptions()));
+        // 먼저 null 체크
+        if (menu.getOptionGroups() == null) {
+            return MenuResponseDto.builder()
+                    .menuId(menu.getMenuId())
+                    .name(menu.getName())
+                    .price(menu.getPrice())
+                    .imgUrl(menu.getImgUrl())
+                    .category(menu.getCategory().getName())
+                    .modelName(menu.getModelName())
+                    .optionGroups(List.of())  // 빈 리스트
+                    .build();
+        }
 
-        List<MenuResponseDto.OptionGroupDto> optionGroups = menu.getOptionGroups().stream()
-                .map(group -> MenuResponseDto.OptionGroupDto.builder()
-                        .name(group.getName())
-                        .required(group.isRequired())
-                        .options(
-                                group.getOptions().stream()
-                                        .map(option -> MenuResponseDto.OptionDto.builder()
-                                                .name(option.getName())
-                                                .price(option.getPrice())
-                                                .build()
-                                        ).toList()
+        // 그 다음 stream 처리
+        List<MenuResponseDto.OptionGroupDto> optionGroups =
+                new HashSet<>(menu.getOptionGroups()).stream()
+                        .map(group -> MenuResponseDto.OptionGroupDto.builder()
+                                .name(group.getName())
+                                .required(group.isRequired())
+                                .options(
+                                        new HashSet<>(group.getOptions()).stream()
+                                                .map(option -> MenuResponseDto.OptionDto.builder()
+                                                        .name(option.getName())
+                                                        .price(option.getPrice())
+                                                        .build())
+                                                .toList()
+                                )
+                                .build()
                         )
-                        .build()
-                ).toList();
+                        .toList();
 
         return MenuResponseDto.builder()
                 .menuId(menu.getMenuId())
@@ -75,4 +89,5 @@ public class MenuService {
                 .optionGroups(optionGroups)
                 .build();
     }
+
 }

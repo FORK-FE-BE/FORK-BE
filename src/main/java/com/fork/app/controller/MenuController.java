@@ -23,7 +23,7 @@ public class MenuController {
     }
 
     @GetMapping("/{menuId}")
-    public ResponseEntity<MenuResponseDto> getMenuDetail(@PathVariable Long menuId) {
+    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long menuId) {
         return ResponseEntity.ok(menuService.getMenuDetail(menuId));
     }
 }

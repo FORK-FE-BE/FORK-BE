@@ -51,9 +51,12 @@ public class RestaurantController {
     // 3. 메뉴 상세 조회
     @Operation(summary = "단일 메뉴 상세 조회", description = "음식점 ID와 메뉴 ID를 통해 특정 메뉴의 상세 정보를 조회합니다.")
     @GetMapping("/api/restaurants/{restaurantId}/menus/{menuId}")
-    public ResponseEntity<?> getMenu(@PathVariable Long restaurantId, @PathVariable Long menuId) {
-        MenuResponseDto menuResponseDto = restaurantService.getMenuByRestaurantAndMenuId(restaurantId, menuId);
-        return ResponseEntity.ok().body(menuResponseDto);
+//    public ResponseEntity<?> getMenu(@PathVariable Long restaurantId, @PathVariable Long menuId) {
+//        MenuResponseDto menuResponseDto = restaurantService.getMenuByRestaurantAndMenuId(restaurantId, menuId);
+//        return ResponseEntity.ok().body(menuResponseDto);
+//    }
+    public ResponseEntity<MenuResponseDto> getMenu(@PathVariable Long restaurantId, @PathVariable Long menuId) {
+        return ResponseEntity.ok(menuService.getMenuDetail(menuId));
     }
 
     // 4. 식당 + 메뉴 텍스트 등록 (1단계)
