@@ -1,8 +1,7 @@
 package com.fork.app.domain.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
@@ -34,6 +33,10 @@ public class MenuResponseDto {
 
     @Builder
     @Data
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Schema(description = "옵션 그룹 DTO")
     public static class OptionGroupDto {
 
@@ -49,6 +52,10 @@ public class MenuResponseDto {
 
     @Builder
     @Data
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Schema(description = "옵션 DTO")
     public static class OptionDto {
 

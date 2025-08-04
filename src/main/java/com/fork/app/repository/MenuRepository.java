@@ -16,12 +16,24 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     })
     List<Menu> findAll();
 
-    @Query("SELECT m FROM Menu m " +
-            "LEFT JOIN FETCH m.restaurant " +
-            "LEFT JOIN FETCH m.category " +
-            "LEFT JOIN FETCH m.optionGroups og " +
-            "WHERE m.menuId = :menuId")
-    Optional<Menu> findWithOptionGroupsByMenuId(@Param("menuId") Long menuId);
+    @Query("""
+SELECT DISTINCT m FROM Menu m
+LEFT JOIN FETCH m.optionGroups og
+LEFT JOIN FETCH og.options
+LEFT JOIN FETCH m.restaurant
+LEFT JOIN FETCH m.category
+WHERE m.menuId = :menuId
+""")
+    Optional<Menu> findWithOptionGroupsAndOptionsByMenuId(@Param("menuId") Long menuId);
+
+//    @Query("SELECT m FROM Menu m " +
+//            "LEFT JOIN FETCH m.restaurant " +
+//            "LEFT JOIN FETCH m.category " +
+//            "LEFT JOIN FETCH m.optionGroups og " +
+//            "WHERE m.menuId = :menuId")
+//    Optional<Menu> findWithOptionGroupsByMenuId(@Param("menuId") Long menuId);
+
+
 
 //    @Query("SELECT m FROM Menu m " +
 //            "LEFT JOIN FETCH m.optionGroups og " +

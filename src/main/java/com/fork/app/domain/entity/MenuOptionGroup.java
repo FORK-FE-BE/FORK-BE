@@ -28,8 +28,12 @@ public class MenuOptionGroup {
     @Column(nullable = false)
     private boolean required; // 필수 선택 여부
 
-    @OneToMany(mappedBy = "optionGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL)
     private Set<MenuOption> options = new HashSet<>();
+
+
+//    @OneToMany(mappedBy = "optionGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<MenuOption> options = new HashSet<>();
 
 }
 
