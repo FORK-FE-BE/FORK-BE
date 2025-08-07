@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,4 +31,8 @@ public class CartItemResponseDto {
 
     @Schema(description = "메뉴 단가", example = "9000")
     private int totalPrice;
+
+    @Schema(description = "선택한 옵션 정보 (옵션 그룹 이름, 옵션 이름, 옵션 가격)")
+    private List<Map<String, Object>> options;
+
 }
