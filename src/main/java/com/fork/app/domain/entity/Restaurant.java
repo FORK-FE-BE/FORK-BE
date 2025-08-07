@@ -74,6 +74,12 @@ public class Restaurant {
     @Column(nullable = false)
     private Integer reviewCount;
 
+    @Column(length = 255)
+    private String introText;  // 한줄 소개
+
+    @Column(length = 20)
+    private String paymentMethod;  // 예: "앱 결제", "만나서 결제"
+
     @Column(nullable = false)
     private LocalDateTime createdDate;
     private boolean hasAR;
@@ -90,6 +96,15 @@ public class Restaurant {
                 .deliveryInfo(deliveryInfo)
                 .storePictureUrl(this.storePictureUrl)
                 .menus(categorizedMenus)
+                .minDeliveryPrice(this.minDeliveryPrice)
+                .minDeliveryTime(this.minDeliveryTime)
+                .maxDeliveryTime(this.maxDeliveryTime)
+                .province(this.address.getProvince())
+                .city(this.address.getCity())
+                .roadName(this.address.getRoadName())
+                .buildingNumber(this.address.getBuildingNumber())
+                .introText(this.introText)
+                .paymentMethod(this.paymentMethod)
                 .build();
     }
 

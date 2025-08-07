@@ -34,4 +34,32 @@ public class RestaurantDetailResponseDto {
 
     @Schema(description = "카테고리별 메뉴", example = "{ \"대표메뉴\": [ ... ], \"사이드\": [ ... ] }")
     private Map<String, List<MenuResponseDto>> menus;
+
+    //새로 추가
+    @Schema(description = "최소 주문 금액", example = "11000")
+    private Integer minDeliveryPrice;
+
+    @Schema(description = "최소 조리 시간", example = "15")
+    private Integer minDeliveryTime;
+
+    @Schema(description = "최대 조리 시간", example = "30")
+    private Integer maxDeliveryTime;
+
+    @Schema(description = "도/시", example = "서울특별시")
+    private String province;
+
+    @Schema(description = "구/군", example = "성북구")
+    private String city;
+
+    @Schema(description = "도로명", example = "보문로34길")
+    private String roadName;
+
+    @Schema(description = "건물 번호", example = "60")
+    private String buildingNumber;
+
+    @Schema(description = "한줄 소개", example = "최고의 맛을 위한 노력")
+    private String introText;
+
+    @Schema(description = "결제 방식", example = "앱 결제")
+    private String paymentMethod;
 }
