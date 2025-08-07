@@ -3,12 +3,15 @@ package com.fork.app.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
-@Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
+@Builder
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +26,9 @@ public class CartItem {
     private Menu menu;
 
     private int quantity;
-    private String selectedOptions; // 예: 토핑/사이즈 등
+    //private String selectedOptions; // 예: 토핑/사이즈 등
+
+    @OneToMany(mappedBy = "cartItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<CartItemOption> selectedOptions = new ArrayList<>();
 }

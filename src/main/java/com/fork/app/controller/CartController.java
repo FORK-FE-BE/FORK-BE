@@ -26,11 +26,19 @@ public class CartController {
     public ResponseEntity<?> addToCart(
             @Parameter(description = "사용자 ID", example = "1") @PathVariable Long userId,
             @RequestBody CartRequestDto dto) {
-        log.info("장바구니 추가 요청 userId={}, menuId={}", userId, dto.getMenuId());
+
+        log.info("장바구니 추가 요청 userId={}, menuId={}, options={}",
+                userId,
+                dto.getMenuId(),
+                dto.getSelectedOptions()
+        );
+
         cartService.addCart(dto, userId);
+
         return ResponseEntity.ok().body(Map.of(
                 "result", "success",
-                "message", "장바구니에 추가되었습니다."));
+                "message", "장바구니에 추가되었습니다."
+        ));
     }
 
     // [2] 장바구니 조회
