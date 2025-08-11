@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@ConditionalOnProperty(name = "chatbot.enabled", havingValue = "true")
 @Slf4j
 @Tag(name = "ChatBot API", description = "OpenAI 기반 챗봇 API")
 @RequiredArgsConstructor
