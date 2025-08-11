@@ -15,7 +15,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(
         exclude = {
                 org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration.class,
-                org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration.class
+                org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration.class,
+                org.springframework.ai.model.openai.autoconfigure.OpenAiChatAutoConfiguration.class,  // Chat 기능 제외
+                org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration.class // Embedding 기능 제외
         }
 )
 public class AppApplication {
