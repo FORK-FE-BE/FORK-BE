@@ -2,14 +2,14 @@ name: CI/CD
 
 on:
   push:
-    branches: [ "main" ]  # main에 push될 때 실행
+    branches: [ "main" ]
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write   # GHCR 푸시 권한
+      packages: write
     steps:
       - uses: actions/checkout@v4
 
@@ -20,11 +20,12 @@ jobs:
           java-version: 17
 
       - name: Log in to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
 
-      - name: Build Docker image
+      - name: Build Docker image (skip tests)
         run: |
           IMAGE=ghcr.io/FORK-FE-BE/FORK-BE:latest
+          ./gradlew bootJar -x test
           docker build -t $IMAGE .
 
       - name: Push Docker image
