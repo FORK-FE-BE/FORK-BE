@@ -16,8 +16,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         exclude = {
                 org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration.class,
                 org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration.class,
-                org.springframework.ai.model.openai.autoconfigure.OpenAiChatAutoConfiguration.class,  // Chat 기능 제외
-                org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration.class // Embedding 기능 제외
+                org.springframework.ai.model.openai.autoconfigure.OpenAiChatAutoConfiguration.class,
+                org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration.class,
+                org.springframework.ai.model.openai.autoconfigure.OpenAiImageAutoConfiguration.class,
+                //org.springframework.ai.autoconfigure.vectorstore.redis.RedisVectorStoreAutoConfiguration.class, // 혹시 Redis VectorStore 연동 방지
+                //org.springframework.ai.autoconfigure.vectorstore.pgvector.PgVectorStoreAutoConfiguration.class // 혹시 pgvector 연동 방지
         }
 )
 public class AppApplication {
