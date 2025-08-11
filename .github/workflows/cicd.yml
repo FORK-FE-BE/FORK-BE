@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD - Build and Push to GHCR
 
 on:
   push:
@@ -22,10 +22,12 @@ jobs:
       - name: Log in to GHCR
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
 
-      - name: Build Docker image (skip tests)
+      - name: Build JAR (skip tests)
+        run: ./gradlew bootJar -x test
+
+      - name: Build Docker image
         run: |
           IMAGE=ghcr.io/FORK-FE-BE/FORK-BE:latest
-          ./gradlew bootJar -x test
           docker build -t $IMAGE .
 
       - name: Push Docker image
