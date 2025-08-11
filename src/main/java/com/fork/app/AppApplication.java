@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
         exclude = {
+                org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration.class,
                 org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration.class
         }
 )
@@ -22,3 +23,4 @@ public class AppApplication {
         SpringApplication.run(AppApplication.class, args);
     }
 }
+
