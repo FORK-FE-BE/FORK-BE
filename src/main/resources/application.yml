@@ -30,14 +30,14 @@ spring:
     openai:
       api-key: ${OPENAI_API_KEY:}   # 비어 있어도 부팅 가능
       chat:
-        enabled: false              # OpenAI Chat 비활성화
+        enabled: false
       embedding:
-        enabled: false              # Embedding 비활성화
+        enabled: false
       audio:
         speech:
-          enabled: false            # TTS 비활성화
+          enabled: false
         transcription:
-          enabled: false            # STT 비활성화
+          enabled: false
 
 server:
   port: 8080
@@ -72,6 +72,5 @@ kakao:
   api:
     key: ${KAKAO_API_KEY}
 
-# 챗봇 코드 전체를 토글하고 싶으면 이 키로 분기(Controller/Service에 @ConditionalOnProperty 사용)
 chatbot:
   enabled: false
