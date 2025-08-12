@@ -1,8 +1,12 @@
-name: CI/CD - Build and Push to GHCR
+name: CI/CD - Build, Push, Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+
+concurrency:
+  group: fork-be-deploy-main
+  cancel-in-progress: true
 
 jobs:
   build-and-push:
@@ -34,3 +38,52 @@ jobs:
         run: |
           IMAGE=ghcr.io/fork-fe-be/fork-be:latest
           docker push $IMAGE
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH to EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        # Runner 쪽 환경변수(원격으로 전달할 것들)
+        env:
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        with:
+          host: ${{ secrets.EC2_HOST }}      # 예: 3.36.xxx.xxx
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}    # 로컬 PEM 개인키 내용 전체
+          script_stop: true
+          # 위 env 블록의 변수들을 원격 쉘 환경으로 전달
+          envs: GHCR_USERNAME,GHCR_TOKEN
+          script: |
+            set -e
+            APP_DIR=/home/ubuntu/apps/fork
+
+            if [ ! -d "$APP_DIR" ]; then
+              mkdir -p "$APP_DIR"
+              git clone https://github.com/FORK-FE-BE/FORK-BE.git "$APP_DIR"
+            fi
+
+            cd "$APP_DIR"
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${GHCR_USERNAME}" --password-stdin
+
+            docker-compose pull
+            docker-compose up -d --force-recreate
+            docker system prune -f
+
+            # 헬스체크: 헤더만 받아오면 성공(404여도 서버 응답만 있으면 OK)
+            for i in {1..10}; do
+              sleep 3
+              if curl -sI --max-time 5 http://localhost:8080/ >/dev/null; then
+                echo "Server responded. Deploy OK."
+                exit 0
+              fi
+            done
+
+            echo "Health check failed"
+            docker logs --tail=200 springboot-server
+            exit 1
