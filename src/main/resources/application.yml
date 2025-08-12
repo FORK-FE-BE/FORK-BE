@@ -8,6 +8,7 @@ spring:
       - org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration
       - org.springframework.ai.model.openai.autoconfigure.OpenAiImageAutoConfiguration
       - org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration
+      - org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration  # ← 추가
       - org.springframework.ai.model.openai.autoconfigure.OpenAiModerationAutoConfiguration
 
   datasource:
@@ -41,13 +42,17 @@ spring:
         enabled: false
       embedding:
         enabled: false
+      image:
+        enabled: false
+      moderation:
+        enabled: false
+      transcription:
+        enabled: false     # ← 추가 (에러 메시지의 경로와 동일)
       audio:
         speech:
           enabled: false
         transcription:
-          enabled: false
-      moderation:
-        enabled: false
+          enabled: false   # ← 혹시 모를 구버전 경로도 함께 차단
 
 server:
   port: 8080
