@@ -8,8 +8,9 @@ spring:
       - org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration
       - org.springframework.ai.model.openai.autoconfigure.OpenAiImageAutoConfiguration
       - org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration
-      - org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration  # ← 추가
+      - org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration
       - org.springframework.ai.model.openai.autoconfigure.OpenAiModerationAutoConfiguration
+      - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -53,6 +54,9 @@ spring:
           enabled: false
         transcription:
           enabled: false   # ← 혹시 모를 구버전 경로도 함께 차단
+    vectorstore:
+      pgvector:
+        enabled: false   # ← 추가
 
 server:
   port: 8080

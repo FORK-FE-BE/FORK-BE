@@ -17,8 +17,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration.class,
         org.springframework.ai.model.openai.autoconfigure.OpenAiImageAutoConfiguration.class,
         org.springframework.ai.model.openai.autoconfigure.OpenAiAudioSpeechAutoConfiguration.class,
-        org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration.class, // ← 추가
-        org.springframework.ai.model.openai.autoconfigure.OpenAiModerationAutoConfiguration.class
+        org.springframework.ai.model.openai.autoconfigure.OpenAiAudioTranscriptionAutoConfiguration.class,
+        org.springframework.ai.model.openai.autoconfigure.OpenAiModerationAutoConfiguration.class,
+        org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration.class
 })
 public class AppApplication {
     public static void main(String[] args) {
